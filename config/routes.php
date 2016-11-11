@@ -15,3 +15,7 @@
   $routes->get('/tasklist', function() {
     HelloWorldController::list_tasks();
   });
+
+  $routes->get('/taskedit', function() {
+    HelloWorldController::edit_task();
+  });

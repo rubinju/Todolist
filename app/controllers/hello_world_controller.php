@@ -20,4 +20,8 @@
     public static function list_tasks(){
       View::make('suunnitelmat/list.html');
     }
+
+    public static function edit_task(){
+      View::make('suunnitelmat/edit_task.html');
+    }
   }
