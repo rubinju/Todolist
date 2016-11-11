@@ -11,3 +11,7 @@
   $routes->get('/login', function() {
     HelloWorldController::login();
   });
+
+  $routes->get('/tasklist', function() {
+    HelloWorldController::list_tasks();
+  });
