@@ -8,5 +8,5 @@
 [Dokumentaatio] (https://github.com/rubinju/Todolist/blob/master/doc/dokumentaatio.pdf)
 
 [Login] (http://rgylling.users.cs.helsinki.fi/tsoha/login)
-[Tehtävien listaus] (http://rgylling.users.cs.helsinki.fi/tsoha/tasklist)
+[Tehtävien listaus] (http://rgylling.users.cs.helsinki.fi/tsoha/tasklist) toimii etusivuna
 [Tehtävän muokkaus] (http://rgylling.users.cs.helsinki.fi/tsoha/taskedit) 
