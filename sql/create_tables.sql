@@ -11,11 +11,6 @@ CREATE TABLE Project(
 	person INTEGER REFERENCES Person(id)
 );
 
-CREATE TABLE Projects( -- TODO: check if it goes like this
-	task INTEGER REFERENCES Task(id),
-	project INTEGER REFERENCES Project(id)
-);
-
 CREATE TABLE Priority(
 	id SERIAL PRIMARY KEY,
 	name smallint NOT NULL
@@ -28,4 +23,9 @@ CREATE TABLE Task(
 	status boolean DEFAULT FALSE,
 	person INTEGER REFERENCES Person(id),
 	priority INTEGER REFERENCES Priority(id)
+);
+
+CREATE TABLE Projects( -- TODO: check if it goes like this
+	task INTEGER REFERENCES Task(id),
+	project INTEGER REFERENCES Project(id)
 );
