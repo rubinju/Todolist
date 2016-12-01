@@ -17,7 +17,6 @@
     </thead>
 
     <tbody>
-      <!-- TODO: td / th -->
       {% for task in tasks %}
       <tr>
       	<td><button class="btn-info btn-sm"><span class="glyphicon glyphicon-unchecked"></span></button> <!-- TODO: add functionality to mark as done -->
@@ -31,7 +30,7 @@
         {% endif %}
         </td>
         <td>{{task.created}}</td>
-        <th><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a></th>
+        <td><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a></td>
       </tr>
       {% endfor %}
     </tbody>
