@@ -1,5 +1,7 @@
 <?php
 
+  require 'app/models/task.php'; // change to composer later
+
   class HelloWorldController extends BaseController{
 
     public static function index(){
@@ -11,7 +13,12 @@
     public static function sandbox(){
       // Testaa koodiasi täällä
       //echo 'Hello World!';
-      View::make('helloworld.html');
+      //View::make('helloworld.html');
+      $beer = Task::find(1);
+      $tasks = Task::all();
+      // Kint debugger
+      Kint::dump($beer);
+      Kint::dump($tasks);
     }
 
     public static function login(){
