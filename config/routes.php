@@ -1,8 +1,8 @@
 <?php
 
-  $routes->get('/', function() {
-    HelloWorldController::index();
-  });
+  // $routes->get('/', function() {
+  //   HelloWorldController::index();
+  // });
 
   $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
@@ -20,6 +20,15 @@
     HelloWorldController::edit_task();
   });
 
+  $routes->get('/', function() {
+    TaskController::index();
+  });
+
   $routes->get('/task', function() {
     TaskController::index();
   });
+
+// show not implemented yet
+  // $routes->get('/task/:id', function() {
+  //   TaskController::show($id); 
+  // });
