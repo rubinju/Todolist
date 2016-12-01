@@ -19,3 +19,7 @@
   $routes->get('/taskedit', function() {
     HelloWorldController::edit_task();
   });
+
+  $routes->get('/task', function() {
+    TaskController::index();
+  });
