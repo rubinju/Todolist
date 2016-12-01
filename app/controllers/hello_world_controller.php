@@ -1,6 +1,6 @@
 <?php
 
-  require 'app/models/task.php'; // change to composer later
+  //require 'app/models/task.php'; // changed to composer 
 
   class HelloWorldController extends BaseController{
 
@@ -14,10 +14,10 @@
       // Testaa koodiasi täällä
       //echo 'Hello World!';
       //View::make('helloworld.html');
-      //$beer = Task::find(1);
+      $beer = Task::find(1);
       $tasks = Task::all();
       // Kint debugger
-      //Kint::dump($beer);
+      Kint::dump($beer);
       Kint::dump($tasks);
     }
 
