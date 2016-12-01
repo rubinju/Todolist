@@ -1,6 +1,6 @@
 <?php
 	class Task extends BaseModel{
-		public $id, $description, $status, $created, $person_id, $priority_name; // should i use _id /_name here?
+		public $id, $description, $status, $created, $person, $priority; // should i use _id /_name here?
 
 		public function __construct($attributes) {
 			parent::__construct($attributes);
@@ -18,11 +18,11 @@
 					'description' => $row['description'],
 					'status' => $row['status'], // Boolean!
 					'created' => $row['created'],
-					'person_id' => $row['person_id'],
-					'priority_name' => $row['priority_name']
+					'person' => $row['person'],
+					'priority' => $row['priority']
 				));
 			}
-			return $tasks
+			return $tasks;
 		}
 
 		public function find($id) {
@@ -36,8 +36,8 @@
 				'description' => $row['description'],
 				'status' => $row['status'], // Boolean!
 				'created' => $row['created'],
-				'person_id' => $row['person_id'],
-				'priority_name' => $row['priority_name']
+				'person' => $row['person'],
+				'priority' => $row['priority']
 				));
 				return $task;
 			}
@@ -45,8 +45,8 @@
 		}
 
 		public function save(/*$id*/) {
-			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person_id, priority_name) VALUES (:description, :status, :created, :person_id, :priority_name)'); //like this?
-			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => $this->created, 'person_id' => $this->person_id, 'priority_name' => $this->priority_name));
+			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person, priority) VALUES (:description, :status, :created, :person, :priority)'); //like this?
+			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => $this->created, 'person' => $this->person, 'priority' => $this->priority));
 			$row = $query->fetch(); // is this needed?
 
 			// ToBeDone...
