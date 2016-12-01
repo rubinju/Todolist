@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Add button to create new task -->
+
+<table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Task</th>
+        <th>Project</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- TODO: td / th -->
+      {% for task in tasks %}
+      <tr>
+      	<td><button class="btn-info btn-sm"><span class="glyphicon glyphicon-unchecked"></span></button>
+        <td><a href="{{base_path}}/task/{{task.id}}">{{task.description}}</a></td>
+        <td>CS</td>
+        <td><label class="label label-danger">{{task.priority}}</label></td>
+        <td>{% if task.status %}
+          <label class="label label-info">done</label>
+        {% else %}
+          <label class="label label-danger">unfinished</label>
+        {% endif %}
+        </td>
+        <td>{{task.created}}</td>
+        <th><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a></th>
+      </tr>
+    </tbody>
+</table>
+{% endblock %}
