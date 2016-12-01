@@ -1,6 +1,6 @@
 <?php
 	class Task extends BaseModel{
-		public $id, $description, $status, $created, $person, $priority; // should i use _id /_name here?
+		public $id, $description, $status, $created, $person, $priority; // should i use _id /_name here? NO!
 
 		public function __construct($attributes) {
 			parent::__construct($attributes);
@@ -25,7 +25,7 @@
 			return $tasks;
 		}
 
-		public function find($id) {
+		public static function find($id) {
 			$query = DB::connection()->prepare('SELECT * FROM Task WHERE id = :id LIMIT 1');
 			$query->execute(array('id' => $id));
 			$row = $query->fetch();
