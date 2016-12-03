@@ -28,7 +28,15 @@
     TaskController::index();
   });
 
-// show not implemented yet
+  $routes->post('/task', function() {
+    TaskController::store(); // not implemented yet
+  });
+
+  $routes->get('/task/new', function() {
+    TaskController::create(); // not implemented yet
+  });
+
+// show not implemented yet, add after post new
   // $routes->get('/task/:id', function() {
   //   TaskController::show($id); 
   // });
