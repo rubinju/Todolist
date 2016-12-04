@@ -29,6 +29,6 @@
     }
 
     public static function edit_task(){
-      View::make('suunnitelmat/edit_task.html');
+      View::make('task/new.html');
     }
   }
