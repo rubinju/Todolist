@@ -44,16 +44,14 @@
 			return null;
 		}
 
-		public function save(/*$id*/) {
-			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person, priority) VALUES (:description, :status, :created, :person, :priority)'); //like this?
+		public function save() {
+			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person, priority) VALUES (:description, :status, :created, :person, :priority) RETURNING id'); // Get the id of the row via RETURNING id
 			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => $this->created, 'person' => $this->person, 'priority' => $this->priority));
-			$row = $query->fetch(); // is this needed?
+			$row = $query->fetch(); // fetch the row so we get the id
+			$this->id = $row['id'];
 
 			// ToBeDone...
 			// what else are we modifying&saving here
 		}
-
-
 	} 
-
 ?>
