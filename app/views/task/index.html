@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!-- Add button to create new task -->
+<div class="btn-group">
+  <a class="btn btn-primary" href="{{base_path}}/task/new" role="button">Add new task</a>
+</div>
+<hr>
 
 <table class="table table-striped table-bordered">
     <thead>
