@@ -29,7 +29,7 @@
   });
 
   $routes->post('/task', function() {
-    TaskController::store(); // not implemented yet
+    TaskController::store();
   });
 
   $routes->get('/task/new', function() {
