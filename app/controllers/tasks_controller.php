@@ -11,13 +11,24 @@
 			$params = $_POST;
 			$task = new Task(array(
 				'description' => $params['description'],
-				'priority' => $params['priority'],
-				'status' => $params['status']
+				'priority' => $params['priority']
+				//'status' => $params['status'] // this doesn't get relayed from new.html
 			));
+
+			//Kint::dump($params); // Debug, comment out Redirect if used!
 
 			$task->save(); // Tell task-model to save this object to DB
 
 			Redirect::to('/task/' . $task->id, array('message' => 'Task added to database!')); 
+		}
+
+		public static function show($id) {
+			$task = Task::find($id);
+			View::make('task/show.html', array('task' => $task));
+		}
+
+		public static function create(){
+		  View::make('task/new.html');
 		}
 	}
 
