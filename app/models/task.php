@@ -48,7 +48,10 @@
 			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person, priority) VALUES (:description, :status, :created, :person, :priority) RETURNING id'); // Get the id of the row via RETURNING id
 			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => $this->created, 'person' => $this->person, 'priority' => $this->priority));
 			$row = $query->fetch(); // fetch the row so we get the id
-			$this->id = $row['id'];
+			Kint::trace();
+			Kint::dump($row); // row is false if nothing comes back from db, perhaps from wrong input type
+
+			//$this->id = $row['id']; // commented out for debugging
 
 			// ToBeDone...
 			// what else are we modifying&saving here
