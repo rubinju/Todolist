@@ -36,7 +36,7 @@
     TaskController::create(); // not implemented yet
   });
 
-// show not implemented yet, add after post new
-  // $routes->get('/task/:id', function() {
-  //   TaskController::show($id); 
-  // });
+// must be added after post new
+  $routes->get('/task/:id', function($id) {
+    TaskController::show($id); 
+  });
