@@ -14,11 +14,16 @@
       // Testaa koodiasi täällä
       //echo 'Hello World!';
       //View::make('helloworld.html');
-      $beer = Task::find(1);
-      $tasks = Task::all();
+      //$beer = Task::find(1);
+      //$tasks = Task::all();
       // Kint debugger
-      Kint::dump($beer);
-      Kint::dump($tasks);
+      //Kint::dump($beer);
+      //Kint::dump($tasks);
+      $jaffa = new Task(array(
+        'description' => '',
+        'priority' => '0'));
+      $errors = $jaffa->errors();
+      Kint::dump($errors);
     }
 
     public static function login(){
