@@ -4,6 +4,7 @@
 
 		public function __construct($attributes) {
 			parent::__construct($attributes);
+			$this->validators = array('validate_description'); // TODO: add other validators
 		}
 
 		public static function all(){
@@ -55,6 +56,14 @@
 
 			// ToBeDone...
 			// what else are we modifying&saving here
+		}
+
+		public function validate_description() {
+			$errors = array();
+			if ($this.description == '' || $this.description == null) {
+				$errors[] = 'Description can\'t be empty';
+			}
+			return $errors;
 		}
 	} 
 ?>
