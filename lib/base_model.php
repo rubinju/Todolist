@@ -28,6 +28,20 @@
       return $errors;
     }
 
-    // TODO: add generic validators, not null, numeric, length, equal
+    // TODO: add generic validators, not null, numeric, equal
+
+    public function validate_string_length($string, $descr, $min, $max) {
+      $errors = array();
+      if ($string == '' || $string == null) {
+        $errors[] = $descr . ' can not be empty';
+      }
+      if (strlen($string) < $min) {
+        $errors[] = $descr . ' must be at least ' . $min . ' characters';
+      }
+      if (strlen($string) > $max) {
+        $errors[] = $descr . ' can not be longer than ' . $max;
+      }
+      return $errors;
+    }
 
   }
