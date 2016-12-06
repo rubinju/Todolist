@@ -39,6 +39,33 @@
 		public static function create(){
 		  View::make('task/new.html');
 		}
+
+		public static function edit($id) {
+			$task = Task::find($id);
+			View::make('task/edit.html', array('attributes' => $task));
+		} 
+
+		public static function update($id) { // push edits to DB
+			$params = $_POST;
+			$attributes = array(
+				'id' => $id,
+				'description' => $params['description'],
+				'priority' => $params['priority']
+			);
+
+			$task = new Task($attributes);
+			$errors = $task->errors();
+
+			if (count($errors) > 0) {
+				View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+			} else {
+				$task->update();
+				Redirect::to('/task/' . $task->id, array('message' => 'Task edited successfully'));
+			}
+		}
+
+
+		// TODO: add done() which marks task as done
 	}
 
 ?>
