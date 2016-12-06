@@ -25,6 +25,7 @@
 
 			Redirect::to('/task/' . $task->id, array('message' => 'Task added to database!'));
 			} else {
+				//Kint::dump($errors);
 				View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes));
 			}
 

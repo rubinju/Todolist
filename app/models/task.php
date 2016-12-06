@@ -4,7 +4,7 @@
 
 		public function __construct($attributes) {
 			parent::__construct($attributes);
-			$this->validators = array('validate_description'); // TODO: add other validators
+			$this->validators = array('validate_description', 'validate_priority'); // TODO: add other validators
 		}
 
 		public static function all(){
@@ -52,15 +52,26 @@
 			Kint::trace();
 			Kint::dump($row); // row is false if nothing comes back from db, perhaps from wrong input type
 
-			//$this->id = $row['id']; // commented out for debugging
+			$this->id = $row['id']; // commented out for debugging
 
 			// ToBeDone...
 			// what else are we modifying&saving here
 		}
 
 		public function validate_description() { // All other fields are pre-filled in add new task, at least for now. 
-			$errors[] = $this->validate_string_length($this->description, 'description', 3, 40);
-			return $errors;
+			$val_error = array();
+			// YO DAWG I PUT AN ARRAY IN YOUR ARRAY, plz merge!
+			$val_error = array_merge($val_error, $this->validate_string_length($this->description, 'description', 3, 40));
+
+			//Kint::dump($val_error); // DEBUG
+			return $val_error;
+		}
+
+		public function validate_priority() {
+			// Added to test errors() array merge
+			$val_error = array();
+			$val_error = array_merge($val_error, $this->validate_numeric($this->priority, 'priority'));
+			return $val_error;
 		}
 	} 
 ?>
