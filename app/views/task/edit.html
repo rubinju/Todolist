@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add a new task</h1>
+
+{% if errors %}
+<div class="alert alert-danger">
+	<ul>
+		{% for error in errors %}
+		<li>{{error}}</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+
+<div class="btn-group">
+  <a class="btn btn-default" href="{{base_path}}" role="button">Cancel</a>
+</div>
+<hr>
+
+<form method="post" action="{{base_path}}/task/{{attributes.id}}/edit">
+	<div class="form-group">
+		<label>Description</label>
+		<input type="text" name="description" class="form-control" value="{{attributes.description}}">
+	</div>
+
+	<div class="form-group">
+		<label>Priority</label>
+		<select name="priority" class="form-control">
+			<option value="0">Not important</option>
+			<option value="1" selected>Default</option>
+			<option value="2">Important</option>
+			<option value="3">DO IT NAO!</option>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label name="projects">Projects</label>
+		<select name="projects" multiple class="form-control">
+			<option value="default">Default</option>
+			<option value="default1">Placeholder</option>
+		</select>
+	</div>
+
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">Update</button>
+	</div>
+</form>
+
+
+{% endblock %}
