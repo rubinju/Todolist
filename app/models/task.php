@@ -47,7 +47,7 @@
 
 		public function save() {
 			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person, priority) VALUES (:description, :status, :created, :person, :priority) RETURNING id'); // Get the id of the row via RETURNING id
-			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => $this->created, 'person' => $this->person, 'priority' => $this->priority));
+			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => date("Y-m-d"), 'person' => $this->person, 'priority' => $this->priority));
 			$row = $query->fetch(); // fetch the row so we get the id
 			Kint::trace();
 			Kint::dump($row); // row is false if nothing comes back from db, perhaps from wrong input type
@@ -56,6 +56,12 @@
 
 			// ToBeDone...
 			// what else are we modifying&saving here
+		}
+
+		public function update() {
+			$query = DB::connection()->prepare('UPDATE Task SET (description, status, priority) = (:description, :status, :priority) WHERE id = :id');
+			Kint::dump($query);
+			$query->execute(array('id' => $this->id, 'description' => $this->description, 'status' => $this->status, 'priority' => $this->priority));
 		}
 
 		public function validate_description() { // All other fields are pre-filled in add new task, at least for now. 
