@@ -59,10 +59,7 @@
 		}
 
 		public function validate_description() { // All other fields are pre-filled in add new task, at least for now. 
-			$errors = array();
-			if ($this.description == '' || $this.description == null) {
-				$errors[] = 'Description can\'t be empty';
-			}
+			$errors[] = $this->validate_string_length($this->description, 'description', 3, 40);
 			return $errors;
 		}
 	} 
