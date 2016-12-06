@@ -33,10 +33,18 @@
   });
 
   $routes->get('/task/new', function() {
-    TaskController::create(); // not implemented yet
+    TaskController::create();
   });
 
-// must be added after post new
+  // must be added after post new
   $routes->get('/task/:id', function($id) {
     TaskController::show($id); 
+  });
+
+  $routes->get('/task/:id/edit', function($id){
+    TaskController::edit($id);
+  });
+
+  $routes->post('/task/:id/edit', function($id){
+    TaskController::update($id);
   });
