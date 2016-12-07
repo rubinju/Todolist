@@ -22,7 +22,7 @@
 
   <body>
 
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-inverse" role="navigation">
       <div class="container-fluid">
 
         <div class="navbar-header">
@@ -37,6 +37,9 @@
         </div>
 
         <div class="collapse navbar-collapse" id="navigation">
+          {% if user_logged_in %}
+          <p class="navbar-text"><span class="glyphicon glyphicon-user"></span> Signed in as user: {{user_logged_in.username}}</p>
+          {% endif %}
           <ul class="nav navbar-nav navbar-right">
             <!-- Navigaation linkit -->
             <li><a href="{{base_path}}">Home</a></li>
