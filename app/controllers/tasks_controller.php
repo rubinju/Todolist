@@ -64,6 +64,12 @@
 			}
 		}
 
+		public static function destroy($id) {
+			$task = new Task(array('id' => $id));
+			$task->destroy();
+			Redirect::to('/task', array('message' => 'Task removed successfully'));
+		}
+
 
 		// TODO: add done() which marks task as done
 	}
