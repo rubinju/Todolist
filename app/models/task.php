@@ -1,15 +1,15 @@
 <?php
 	class Task extends BaseModel{
-		public $id, $description, $status, $created, $person, $priority; // should i use _id /_name here? NO!
+		public $id, $description, $status, $created, $person, $priority;
 
 		public function __construct($attributes) {
 			parent::__construct($attributes);
 			$this->validators = array('validate_description', 'validate_priority'); // TODO: add other validators
 		}
 
-		public static function all(){
-			$query = DB::connection()->prepare('SELECT * FROM Task');
-			$query->execute(); // does not work with boolean! check out bindValue
+		public static function all(){ 
+			$query = DB::connection()->prepare('SELECT * FROM Task WHERE person = :person');
+			$query->execute(array('person' => $_SESSION['user'])); // does not work with booleans! check out bindValue
 			$rows = $query->fetchAll();
 			$tasks = array();
 
@@ -47,7 +47,7 @@
 
 		public function save() {
 			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person, priority) VALUES (:description, :status, :created, :person, :priority) RETURNING id'); // Get the id of the row via RETURNING id
-			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => date("Y-m-d"), 'person' => $this->person, 'priority' => $this->priority));
+			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => date("Y-m-d"), 'person' => $_SESSION['user'], 'priority' => $this->priority));
 			$row = $query->fetch(); // fetch the row so we get the id
 			Kint::trace();
 			Kint::dump($row); // row is false if nothing comes back from db, perhaps from wrong input type
@@ -71,10 +71,16 @@
 			$row = $query->fetch();
 		}
 
+		public function done() {
+			$query = DB::connection()->prepare('UPDATE Task SET status = :status WHERE id = :id');
+			$query->execute(array('id' => $this->id, 'status' => $this->status));
+			$row = $query->fetch();
+		}
+
 		public function validate_description() { // All other fields are pre-filled in add new task, at least for now. 
 			$val_error = array();
 			// YO DAWG I PUT AN ARRAY IN YOUR ARRAY, plz merge!
-			$val_error = array_merge($val_error, $this->validate_string_length($this->description, 'description', 3, 40));
+			$val_error = array_merge($val_error, $this->validate_string_length($this->description, 'description', 3, 60));
 
 			//Kint::dump($val_error); // DEBUG
 			return $val_error;
