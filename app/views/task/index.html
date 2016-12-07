@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
+
 {% if user_logged_in %}
   <!-- Ignore this, it's just temporary -->
   <div class="well well-sm">
@@ -31,12 +33,19 @@
     <tbody>
       {% for task in tasks %}
       <tr>
-      	<td><a class="btn-info btn-sm" href="{{base_path}}/task/{{task.id}}/done"><span class="glyphicon glyphicon-unchecked"></span></a> <!-- TODO: add functionality to mark as done -->
+      	<td>
+          <!-- TODO: add functionality to mark as done -->
+          {% if task.status == 0 %}
+            {{forms.done_button("#{base_path}/task/#{task.id}/done", 1, "unchecked")}}
+          {% else %}
+            {{forms.done_button("#{base_path}/task/#{task.id}/done", 0, "check")}}
+          {% endif %}
+        </td> 
         <td><a href="{{base_path}}/task/{{task.id}}">{{task.description}}</a></td>
         <td>{{task.project}}</td> <!-- TODO: this comes from elesewhere -->
         <td><label class="label label-danger">{{task.priority}}</label></td>
         <td>{% if task.status %}
-          <label class="label label-info">done</label>
+          <label class="label label-success">done</label>
         {% else %}
           <label class="label label-danger">unfinished</label>
         {% endif %}
