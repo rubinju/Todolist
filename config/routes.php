@@ -1,19 +1,7 @@
 <?php
 
-  // $routes->get('/', function() {
-  //   HelloWorldController::index();
-  // });
-
   $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
-  });
-
-  $routes->get('/tasklist', function() {
-    HelloWorldController::list_tasks();
-  });
-
-  $routes->get('/taskedit', function() {
-    HelloWorldController::edit_task();
   });
 
   $routes->get('/', function() {
@@ -55,4 +43,8 @@
 
   $routes->post('/login', function(){
     UserController::handle_login();
+  });
+
+  $routes->get('/logout', function(){
+    UserController::logout();
   });
