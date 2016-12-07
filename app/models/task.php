@@ -62,6 +62,13 @@
 			$query = DB::connection()->prepare('UPDATE Task SET (description, status, priority) = (:description, :status, :priority) WHERE id = :id');
 			Kint::dump($query);
 			$query->execute(array('id' => $this->id, 'description' => $this->description, 'status' => $this->status, 'priority' => $this->priority));
+			$row = $query->fetch(); // row is false if db is angry, great for debugging
+		}
+
+		public function destroy() {
+			$query = DB::connection()->prepare('DELETE FROM Task WHERE id = :id');
+			$query->execute(array('id' => $this->id));
+			$row = $query->fetch();
 		}
 
 		public function validate_description() { // All other fields are pre-filled in add new task, at least for now. 
