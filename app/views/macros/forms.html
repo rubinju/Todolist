@@ -3,3 +3,10 @@
     <button type="submit" class="btn-sm btn-danger">{{text|default('Delete')}}</button>
   </form>
 {% endmacro %}
+
+{% macro done_button(action, value, check) %}
+  <form method="post" action="{{action}}" style="display: inline-block;">
+  	<input type="hidden" name="status" value="{{value}}">
+    <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-{{check|default('unchecked')}}"></span></button>
+  </form>
+{% endmacro %}
