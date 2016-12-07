@@ -3,11 +3,13 @@
 	class TaskController extends BaseController	{
 		
 		public static function index() {
+			self::check_logged_in();
 			$tasks = Task::all(); //Get all tasks from db
 			View::make('task/index.html', array('tasks' => $tasks));
 		}
 
-		public static function store() { // What do we do about parms that need to be put in a different db-table? Or creation-date that's not user submitted?
+		public static function store() { // What do we do about parms that need to be put in a different db-table?
+			self::check_logged_in();
 			$params = $_POST;
 			$attributes = array(
 				'description' => $params['description'],
@@ -32,25 +34,30 @@
 		}
 
 		public static function show($id) {
+			self::check_logged_in();
 			$task = Task::find($id);
 			View::make('task/show.html', array('task' => $task));
 		}
 
-		public static function create(){
-		  View::make('task/new.html');
+		public static function create() {
+			self::check_logged_in();
+			View::make('task/new.html');
 		}
 
 		public static function edit($id) {
+			self::check_logged_in();
 			$task = Task::find($id);
 			View::make('task/edit.html', array('attributes' => $task));
 		} 
 
 		public static function update($id) { // push edits to DB
+			self::check_logged_in();
 			$params = $_POST;
 			$attributes = array(
 				'id' => $id,
 				'description' => $params['description'],
-				'priority' => $params['priority']
+				'priority' => $params['priority'],
+				'status' => $params['status']
 			);
 
 			$task = new Task($attributes);
@@ -65,13 +72,21 @@
 		}
 
 		public static function destroy($id) {
+			self::check_logged_in();
 			$task = new Task(array('id' => $id));
 			$task->destroy();
 			Redirect::to('/task', array('message' => 'Task removed successfully'));
 		}
 
+		public static function done($id) {
+			self::check_logged_in();
+			$params = $_POST;
+			$attributes = array('id' => $id, 'status' => $params['status']);
 
-		// TODO: add done() which marks task as done
+			$task = new Task($attributes);
+			$task->done();
+			Redirect::to('/task', array('message' => 'Task done'));
+		}
 	}
 
 ?>
