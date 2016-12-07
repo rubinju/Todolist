@@ -8,10 +8,6 @@
     HelloWorldController::sandbox();
   });
 
-  $routes->get('/login', function() {
-    HelloWorldController::login();
-  });
-
   $routes->get('/tasklist', function() {
     HelloWorldController::list_tasks();
   });
@@ -47,4 +43,16 @@
 
   $routes->post('/task/:id/edit', function($id){
     TaskController::update($id);
+  });
+
+  $routes->post('/task/:id/destroy', function($id){
+    TaskController::destroy($id);
+  });
+
+  $routes->get('/login', function(){
+    UserController::login();
+  });
+
+  $routes->post('/login', function(){
+    UserController::handle_login();
   });
