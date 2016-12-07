@@ -37,6 +37,10 @@
     TaskController::destroy($id);
   });
 
+  $routes->post('/task/:id/done', function($id){
+    TaskController::done($id);
+  });
+
   $routes->get('/login', function(){
     UserController::login();
   });
