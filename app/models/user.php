@@ -17,6 +17,18 @@
 			return null;
 		}
 
+		public function find($id) {
+			$query = DB::connection()->prepare('SELECT * FROM Person WHERE id = :id LIMIT 1');
+			$query->execute(array('id' => $id));
+			$row = $query->fetch();
+
+			if ($row) {
+				$user = new User(array('id' => $row['id'], 'username' => $row['username'], 'password' => $row['password']));
+			}
+			return $user;
+
+		}
+
 
 	}
 ?>
