@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+{% if user_logged_in %}
+  <div class="well well-sm">
+    <span class="glyphicon glyphicon-user"></span><span> Logged in as user {{user_logged_in.username}}</span>
+  </div>
+{% endif %}
 
 {% if message %}
 <div class="alert alert-success">{{message}}</div>
