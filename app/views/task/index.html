@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% if user_logged_in %}
+  <!-- Ignore this, it's just temporary -->
   <div class="well well-sm">
     <span class="glyphicon glyphicon-user"></span><span> Logged in as user {{user_logged_in.username}}</span>
   </div>
@@ -17,7 +18,7 @@
 <table class="table table-striped table-bordered">
     <thead>
       <tr>
-        <th></th>
+        <th>Done</th>
         <th>Task</th>
         <th>Project</th>
         <th>Priority</th>
@@ -30,7 +31,7 @@
     <tbody>
       {% for task in tasks %}
       <tr>
-      	<td><button class="btn-info btn-sm"><span class="glyphicon glyphicon-unchecked"></span></button> <!-- TODO: add functionality to mark as done -->
+      	<td><a class="btn-info btn-sm" href="{{base_path}}/task/{{task.id}}/done"><span class="glyphicon glyphicon-unchecked"></span></a> <!-- TODO: add functionality to mark as done -->
         <td><a href="{{base_path}}/task/{{task.id}}">{{task.description}}</a></td>
         <td>{{task.project}}</td> <!-- TODO: this comes from elesewhere -->
         <td><label class="label label-danger">{{task.priority}}</label></td>
