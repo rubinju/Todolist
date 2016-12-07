@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if message %}
+<div class="alert alert-success">{{message}}</div>
+{% endif %}
 <div class="btn-group">
   <a class="btn btn-primary" href="{{base_path}}/task/new" role="button">Add new task</a>
 </div>
