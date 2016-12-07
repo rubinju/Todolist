@@ -40,7 +40,11 @@
           <ul class="nav navbar-nav navbar-right">
             <!-- Navigaation linkit -->
             <li><a href="{{base_path}}">Home</a></li>
+            {% if user_logged_in %}
+            <li><a href="{{base_path}}/logout">Logout</a></li>
+            {% else %}
             <li><a href="{{base_path}}/login">Login</a></li>
+            {% endif %}
           </ul>
         </div>
       </div>
