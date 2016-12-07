@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
 
 {% if message %}
 <div class="alert alert-success">{{message}}</div>
@@ -35,7 +36,7 @@
         {% endif %}
         </td>
         <td>{{task.created}}</td>
-        <td><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a></td>
+        <td><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a>  {{forms.destroy_button("#{base_path}/task/#{task.id}/destroy")}}</td>
       </tr>
     </tbody>
 </table>
