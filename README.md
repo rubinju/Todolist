@@ -21,3 +21,6 @@ pass: 1234
 ### uudet
 * [Tehtävien listaus](http://rgylling.users.cs.helsinki.fi/tsoha/task)
 * [Login](http://rgylling.users.cs.helsinki.fi/tsoha/login)
+
+## Known bugs:
+* Käyttäjä voi muokata/poistaa toisen käyttäjän taskeja arvaamalla id:n
