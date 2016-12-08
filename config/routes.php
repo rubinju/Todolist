@@ -52,3 +52,15 @@
   $routes->get('/logout', function(){
     UserController::logout();
   });
+
+  $routes->get('/project', function() {
+    ProjectController::index();
+  });
+
+  $routes->get('/project/new', function() {
+    ProjectController::create();
+  });
+
+  $routes->post('/project/:id/destroy', function($id){
+    ProjectController::destroy($id);
+  });
