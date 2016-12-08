@@ -8,3 +8,10 @@
   max-width: 1200px;
   margin: 0px auto;
 }
+
+.btn-outline-success {
+    color: #5cb85c;
+    background-image: none;
+    background-color: transparent;
+    border-color: #5cb85c;
+}
