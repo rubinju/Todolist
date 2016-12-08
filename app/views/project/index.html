@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/forms.html" as forms %}
+
+{% if message %}
+<div class="alert alert-success">{{message}}</div>
+{% endif %}
+<div class="btn-group">
+  <a class="btn btn-primary" href="{{base_path}}/project/new" role="button">Create new project</a>
+</div>
+<hr>
+
+<table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Tasks</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for project in projects %}
+      <tr>
+        <td><a href="{{base_path}}/project/{{project.id}}">{{project.name}}</a></td>
+        <td>number of tasks</td>
+        <td><a class="btn btn-default btn-sm" href="{{base_path}}/project/{{project.id}}/edit">Edit</a>  {{forms.destroy_button("#{base_path}/project/#{project.id}/destroy")}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
