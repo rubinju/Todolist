@@ -95,7 +95,7 @@
 
 		public static function listProject($projectId){ 
 			$query = DB::connection()->prepare('
-				 SELECT Task.id, Task.description, Task.created, Task.status, Task.priority, Projects.project AS project_id, Project.name AS project_name FROM Task INNER JOIN Projects ON Task.id = Projects.task INNER JOIN Project ON Project.id = Projects.project WHERE project = :id
+				 SELECT Task.id, Task.description, Task.created, Task.status, Task.priority, Projects.project AS project_id, Project.name AS project_name FROM Task INNER JOIN Projects ON Task.id = Projects.task INNER JOIN Project ON Project.id = Projects.project WHERE project = :id ORDER BY status, priority DESC, created DESC
 				');
 			$query->execute(array('id' => $projectId));
 			$rows = $query->fetchAll();
