@@ -1,6 +1,6 @@
 <?php
 	class Task extends BaseModel{
-		public $id, $description, $status, $created, $person, $priority;
+		public $id, $description, $status, $created, $person, $priority;//, $project_id, $project_name;
 
 		public function __construct($attributes) {
 			parent::__construct($attributes);
@@ -8,7 +8,7 @@
 		}
 
 		public static function all(){ 
-			$query = DB::connection()->prepare('SELECT * FROM Task WHERE person = :person');
+			$query = DB::connection()->prepare('SELECT * FROM Task WHERE person = :person ORDER BY status, priority DESC, created DESC');
 			$query->execute(array('person' => $_SESSION['user'])); // does not work with booleans! check out bindValue
 			$rows = $query->fetchAll();
 			$tasks = array();
@@ -91,6 +91,28 @@
 			$val_error = array();
 			$val_error = array_merge($val_error, $this->validate_numeric($this->priority, 'priority'));
 			return $val_error;
+		}
+
+		public static function listProject($projectId){ 
+			$query = DB::connection()->prepare('
+				 SELECT Task.id, Task.description, Task.created, Task.status, Task.priority, Projects.project AS project_id, Project.name AS project_name FROM Task INNER JOIN Projects ON Task.id = Projects.task INNER JOIN Project ON Project.id = Projects.project WHERE project = :id
+				');
+			$query->execute(array('id' => $projectId));
+			$rows = $query->fetchAll();
+			$tasks = array();
+
+			foreach ($rows as $row) {
+				$tasks[] = new Task(array(
+					'id' => $row['id'],
+					'description' => $row['description'],
+					'status' => $row['status'],
+					'created' => $row['created'],
+					'priority' => $row['priority']
+					// 'project_id' => $row['project_id'],
+					// 'project_name' => $row['project_name']
+				));
+			}
+			return $tasks;
 		}
 	} 
 ?>

@@ -57,10 +57,26 @@
     ProjectController::index();
   });
 
+  $routes->post('/project', function() {
+    ProjectController::store();
+  });
+
   $routes->get('/project/new', function() {
     ProjectController::create();
   });
 
+  $routes->get('/project/:id', function($id) {
+    ProjectController::show($id); 
+  });
+
   $routes->post('/project/:id/destroy', function($id){
     ProjectController::destroy($id);
+  });
+
+  $routes->get('/project/:id/edit', function($id){
+    ProjectController::edit($id);
+  });
+
+  $routes->post('/project/:id/edit', function($id){
+    ProjectController::update($id);
   });

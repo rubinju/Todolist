@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Add a new task</h1>
+<h3>Edit task</h3>
 
 {% if errors %}
 <div class="alert alert-danger">
@@ -19,6 +19,18 @@
 
 <form method="post" action="{{base_path}}/task/{{attributes.id}}/edit">
 	<div class="form-group">
+		<div class="radio">
+			{%if task.status %}
+			<label><input type="radio" name="status" value="1" checked>Task done</label>
+			<label><input type="radio" name="status" value="0">Task not done</label>
+			{% else %}
+			<label><input type="radio" name="status" value="1">Task done</label>
+			<label><input type="radio" name="status" value="0" checked>Task not done</label>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="form-group">
 		<label>Description</label>
 		<input type="text" name="description" class="form-control" value="{{attributes.description}}">
 	</div>
@@ -26,7 +38,6 @@
 	<div class="form-group">
 		<label>Priority</label>
 		<select name="priority" class="form-control">
-			<option value="0">Not important</option>
 			<option value="1" selected>Default</option>
 			<option value="2">Important</option>
 			<option value="3">DO IT NAO!</option>

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Add a new task</h1>
+<h3>Add a new task</h3>
 
 {% if errors %}
 <div class="alert alert-danger">
@@ -26,7 +26,6 @@
 	<div class="form-group">
 		<label>Priority</label>
 		<select name="priority" class="form-control">
-			<option value="0">Not important</option>
 			<option value="1" selected>Default</option>
 			<option value="2">Important</option>
 			<option value="3">DO IT NAO!</option>

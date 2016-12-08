@@ -7,6 +7,9 @@
 {% macro done_button(action, value, check) %}
   <form method="post" action="{{action}}" style="display: inline-block;">
   	<input type="hidden" name="status" value="{{value}}">
-    <button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-{{check|default('unchecked')}}"></span></button>
+    {%if value == 1 %}<button type="submit" class="btn btn-info">
+    {% else %}<button type="submit" class="btn btn-outline-success">
+    {% endif %}
+    <span class="glyphicon glyphicon-{{check|default('unchecked')}}"></span></button>
   </form>
 {% endmacro %}

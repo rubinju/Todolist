@@ -2,11 +2,13 @@
 {% block content %}
 {% import "macros/forms.html" as forms %}
 
+<h3>Project: {{project_name}}</h3>
 {% if message %}
 <div class="alert alert-success">{{message}}</div>
 {% endif %}
 <div class="btn-group">
-  <a class="btn btn-default" href="{{base_path}}" role="button">Back</a>
+  <a class="btn btn-default" href="{{base_path}}/project" role="button">Back</a>
+  <a class="btn btn-primary" href="{{base_path}}/task/new" role="button">Add new task</a>
 </div>
 <hr>
 
@@ -15,7 +17,6 @@
       <tr>
         <th>Done</th>
         <th>Task</th>
-        <th>Project</th>
         <th>Priority</th>
         <th>Status</th>
         <th>Created</th>
@@ -24,26 +25,39 @@
     </thead>
 
     <tbody>
+      {% for task in tasks %}
       <tr>
       	<td>
+          <!-- TODO: add functionality to mark as done -->
           {% if task.status == 0 %}
             {{forms.done_button("#{base_path}/task/#{task.id}/done", 1, "unchecked")}}
           {% else %}
             {{forms.done_button("#{base_path}/task/#{task.id}/done", 0, "check")}}
           {% endif %}
-        </td>
+        </td> 
         <td><a href="{{base_path}}/task/{{task.id}}">{{task.description}}</a></td>
-        <td>{{task.project}}</td> <!-- TODO: this comes from elesewhere -->
-        <td><label class="label label-danger">{{task.priority}}</label></td>
-        <td>{% if task.status %}
+        <td>
+          {% if task.priority == 3 %}
+          <label class="label label-danger">{{task.priority}}</label>
+          {% elseif task.priority == 2 %}
+          <label class="label label-warning">{{task.priority}}</label>
+          {% elseif task.priority == 1 %}
+          <label class="label label-primary">{{task.priority}}</label>
+          {% else %}
+          <label class="label label-default">{{task.priority}}</label>
+          {% endif %}
+        </td>
+        <td>
+        {% if task.status %}
           <label class="label label-success">done</label>
         {% else %}
           <label class="label label-danger">unfinished</label>
         {% endif %}
         </td>
         <td>{{task.created}}</td>
-        <td><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a>  {{forms.destroy_button("#{base_path}/task/#{task.id}/destroy")}}</td>
+        <td><a class="btn btn-default btn-sm" href="{{base_path}}/task/{{task.id}}/edit">Edit</a></td>
       </tr>
+      {% endfor %}
     </tbody>
 </table>
 {% endblock %}

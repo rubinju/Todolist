@@ -13,8 +13,8 @@
 			$params = $_POST;
 			$attributes = array(
 				'description' => $params['description'],
-				'priority' => $params['priority']
-				//'status' => $params['status'] // this doesn't get relayed from new.html
+				'priority' => $params['priority'],
+				'status' => 0 // this doesn't get relayed from new.html
 			);
 
 			$task = new Task($attributes);
