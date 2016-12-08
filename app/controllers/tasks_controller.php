@@ -41,13 +41,15 @@
 
 		public static function create() {
 			self::check_logged_in();
-			View::make('task/new.html');
+			$projects = Project::all();
+			View::make('task/new.html', array('projects' => $projects));
 		}
 
 		public static function edit($id) {
 			self::check_logged_in();
 			$task = Task::find($id);
-			View::make('task/edit.html', array('attributes' => $task));
+			$projects = Project::all();
+			View::make('task/edit.html', array('attributes' => $task, 'projects' => $projects));
 		} 
 
 		public static function update($id) { // push edits to DB
