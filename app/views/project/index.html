@@ -19,6 +19,7 @@
         <th>Project Name</th>
         <th>Tasks</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
 
@@ -27,7 +28,8 @@
       <tr>
         <td><a href="{{base_path}}/project/{{project.id}}">{{project.name}}</a></td>
         <td>{{project.taskcount}}</td>
-        <td><a class="btn btn-default btn-sm" href="{{base_path}}/project/{{project.id}}/edit">Edit</a>  {{forms.destroy_button("#{base_path}/project/#{project.id}/destroy")}}</td>
+        <td><a class="btn btn-default btn-sm" href="{{base_path}}/project/{{project.id}}/edit">Edit</a></td>
+        <td>{{forms.destroy_button("#{base_path}/project/#{project.id}/destroy")}}</td>
       </tr>
       {% endfor %}
     </tbody>

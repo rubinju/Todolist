@@ -35,8 +35,9 @@
 	<div class="form-group">
 		<label name="projects">Projects</label>
 		<select name="projects" multiple class="form-control">
-			<option value="default">Default</option>
-			<option value="default1">Placeholder</option>
+			{% for project in projects %}
+				<option value="{{project.id}}">{{project.name}}</option>
+			{% endfor %}
 		</select>
 	</div>
 
