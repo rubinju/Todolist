@@ -1,26 +1,25 @@
 # Todolist
 
-user1: foo
-pass: bar
+### Tunnukset
+* user1: foo
+* pass: bar
 
-user2: spaceball
-pass: 1234
+* user2: spaceball
+* pass: 1234
  
 ## Linkit:
-[Aihe](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Muistilista.html)
+* [Aihe](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Muistilista.html)
+* [Sovellus](http://rgylling.users.cs.helsinki.fi/tsoha/)
+* [Dokumentaatio](https://github.com/rubinju/Todolist/blob/master/doc/dokumentaatio.pdf)
 
-[Sovellus](http://rgylling.users.cs.helsinki.fi/tsoha/)
-
-[Dokumentaatio](https://github.com/rubinju/Todolist/blob/master/doc/dokumentaatio.pdf)
-
-### suunnitelmat
+### Päänäkymät
 * [Login](http://rgylling.users.cs.helsinki.fi/tsoha/login)
-* [Tehtävien listaus](http://rgylling.users.cs.helsinki.fi/tsoha/tasklist) toimii etusivuna
-* [Tehtävän muokkaus](http://rgylling.users.cs.helsinki.fi/tsoha/taskedit) 
-
-### uudet
 * [Tehtävien listaus](http://rgylling.users.cs.helsinki.fi/tsoha/task)
-* [Login](http://rgylling.users.cs.helsinki.fi/tsoha/login)
+* [Projektien listaus](http://rgylling.users.cs.helsinki.fi/tsoha/project)
 
-## Known bugs:
+### Todo:
+* Projektien liittäiminen tehtäviin ei toimi vielä
+* Tehtävien määrä projektinäkymässä on liian kanta-intensiivinen, toteutetaan toisella tavalla
+
+### Known bugs:
 * Käyttäjä voi muokata/poistaa toisen käyttäjän taskeja arvaamalla id:n
