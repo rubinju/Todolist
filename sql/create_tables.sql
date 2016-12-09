@@ -8,7 +8,8 @@ CREATE TABLE Person(
 CREATE TABLE Project(
 	id SERIAL PRIMARY KEY,
 	name varchar(255) NOT NULL,
-	person INTEGER REFERENCES Person(id)
+	person INTEGER REFERENCES Person(id),
+	taskcount SMALLINT -- Number of tasks in the project
 );
 
 CREATE TABLE Priority(
@@ -22,10 +23,11 @@ CREATE TABLE Task(
 	created DATE,
 	status boolean DEFAULT FALSE,
 	person INTEGER REFERENCES Person(id),
-	priority INTEGER REFERENCES Priority(id)
+	priority INTEGER REFERENCES Priority(id),
+	projectids varhar(30) -- For visualizing which projects this is part of
 );
 
-CREATE TABLE Projects( -- TODO: check if it goes like this
+CREATE TABLE Projects( -- Could have a better name, many-to-many
 	task INTEGER REFERENCES Task(id),
 	project INTEGER REFERENCES Project(id)
 );
