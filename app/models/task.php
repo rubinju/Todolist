@@ -1,6 +1,6 @@
 <?php
 	class Task extends BaseModel{
-		public $id, $description, $status, $created, $person, $priority;//, $project_id, $project_name;
+		public $id, $description, $status, $created, $person, $priority, $projectids;// $project_name;
 
 		public function __construct($attributes) {
 			parent::__construct($attributes);
@@ -20,7 +20,8 @@
 					'status' => $row['status'], // Boolean!
 					'created' => $row['created'],
 					'person' => $row['person'],
-					'priority' => $row['priority']
+					'priority' => $row['priority'],
+					'projectids' => $row['projectids']
 				));
 			}
 			return $tasks;
@@ -38,7 +39,8 @@
 				'status' => $row['status'], // Boolean!
 				'created' => $row['created'],
 				'person' => $row['person'],
-				'priority' => $row['priority']
+				'priority' => $row['priority'],
+				'projectids' => $row['projectids']
 				));
 				return $task;
 			}
@@ -46,8 +48,8 @@
 		}
 
 		public function save() {
-			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person, priority) VALUES (:description, :status, :created, :person, :priority) RETURNING id'); // Get the id of the row via RETURNING id
-			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => date("Y-m-d"), 'person' => $_SESSION['user'], 'priority' => $this->priority));
+			$query = DB::connection()->prepare('INSERT INTO Task (description, status, created, person, priority, projectids) VALUES (:description, :status, :created, :person, :priority, :projectids) RETURNING id'); // Get the id of the row via RETURNING id
+			$query->execute(array('description' => $this->description, 'status' => $this->status, 'created' => date("Y-m-d"), 'person' => $_SESSION['user'], 'priority' => $this->priority, 'projectids' => implode(",", $this->projectids)));
 			$row = $query->fetch(); // fetch the row so we get the id
 			Kint::trace();
 			Kint::dump($row); // row is false if nothing comes back from db, perhaps from wrong input type
@@ -59,9 +61,9 @@
 		}
 
 		public function update() {
-			$query = DB::connection()->prepare('UPDATE Task SET (description, status, priority) = (:description, :status, :priority) WHERE id = :id');
+			$query = DB::connection()->prepare('UPDATE Task SET (description, status, priority, projectids) = (:description, :status, :priority, :projectids) WHERE id = :id');
 			Kint::dump($query);
-			$query->execute(array('id' => $this->id, 'description' => $this->description, 'status' => $this->status, 'priority' => $this->priority));
+			$query->execute(array('id' => $this->id, 'description' => $this->description, 'status' => $this->status, 'priority' => $this->priority, 'projectids' => implode(",", $this->projectids)));
 			$row = $query->fetch(); // row is false if db is angry, great for debugging
 		}
 
@@ -93,9 +95,9 @@
 			return $val_error;
 		}
 
-		public static function listProject($projectId){ 
+		public static function listProject($projectId){ // Lists tasks included in project id
 			$query = DB::connection()->prepare('
-				 SELECT Task.id, Task.description, Task.created, Task.status, Task.priority, Projects.project AS project_id, Project.name AS project_name FROM Task INNER JOIN Projects ON Task.id = Projects.task INNER JOIN Project ON Project.id = Projects.project WHERE project = :id ORDER BY status, priority DESC, created DESC
+				 SELECT Task.id, Task.description, Task.created, Task.status, Task.priority, Task.projectids, Projects.project AS project_id, Project.name AS project_name FROM Task INNER JOIN Projects ON Task.id = Projects.task INNER JOIN Project ON Project.id = Projects.project WHERE project = :id ORDER BY status, priority DESC, created DESC
 				');
 			$query->execute(array('id' => $projectId));
 			$rows = $query->fetchAll();
@@ -107,12 +109,26 @@
 					'description' => $row['description'],
 					'status' => $row['status'],
 					'created' => $row['created'],
-					'priority' => $row['priority']
-					// 'project_id' => $row['project_id'],
+					'priority' => $row['priority'],
+					'projectids' => $row['projectids']
 					// 'project_name' => $row['project_name']
 				));
 			}
 			return $tasks;
+		}
+
+		public static function getMemberOfProjects($id) { // Lists projects which task id is member in
+			$query = DB::connection()->prepare('SELECT project FROM Projects WHERE task = :id');
+			$query->execute(array('id' => $id));
+			$rows = $query->fetchAll();
+			$projects = array();
+
+			foreach ($rows as $row) {
+				$projects[] = $row['project'];
+			}
+			//Kint::dump($rows);
+			//Kint::dump($projects);
+			return $projects;
 		}
 	} 
 ?>

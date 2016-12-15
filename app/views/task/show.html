@@ -34,7 +34,7 @@
           {% endif %}
         </td>
         <td><a href="{{base_path}}/task/{{task.id}}">{{task.description}}</a></td>
-        <td>{{task.project}}</td> <!-- TODO: this comes from elesewhere -->
+        <td>{{task.projectids}}</td> <!-- TODO: this comes from elesewhere -->
         <td>
         {% if task.priority == 3 %}
             <label class="label label-danger">{{task.priority}}</label>

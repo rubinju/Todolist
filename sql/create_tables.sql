@@ -24,10 +24,10 @@ CREATE TABLE Task(
 	status boolean DEFAULT FALSE,
 	person INTEGER REFERENCES Person(id),
 	priority INTEGER REFERENCES Priority(id),
-	projectids varhar(30) -- For visualizing which projects this is part of
+	projectids varchar(30) -- For visualizing which projects this is part of
 );
 
 CREATE TABLE Projects( -- Could have a better name, many-to-many
-	task INTEGER REFERENCES Task(id),
-	project INTEGER REFERENCES Project(id)
+	task INTEGER REFERENCES Task(id) ON DELETE CASCADE, -- remove entries if task is removed
+	project INTEGER REFERENCES Project(id) ON DELETE CASCADE -- remove entries if project is removed
 );

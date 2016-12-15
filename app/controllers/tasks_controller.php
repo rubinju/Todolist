@@ -11,25 +11,36 @@
 		public static function store() { // What do we do about parms that need to be put in a different db-table?
 			self::check_logged_in();
 			$params = $_POST;
+			$projects = $_POST['projects'];
+
 			$attributes = array(
 				'description' => $params['description'],
 				'priority' => $params['priority'],
-				'status' => 0 // this doesn't get relayed from new.html
+				'status' => 0, // New tasks gets marked as not done
+				'projectids' => $projects // stringconversion has to be done in Task, not here
 			);
 
 			$task = new Task($attributes);
 			$errors = $task->errors(); // Calls all validators
 
 			//Kint::dump($params); // Debug, comment out Redirect if used!
+			//Kint::dump($task);
 
-			if (count($errors) == 0) {
-				$task->save(); // Tell task-model to save this object to DB
+			// if (count($errors) == 0) {
+			// 	$task->save(); // Tell task-model to save this object to DB
+			// 	foreach ($projects as $project) {
+			// 		Project::addTask($task->id, $project); // We don't know the id before it is saved!
+			// 		Project::updateCount($project);
+			// 	}
 
-			Redirect::to('/task/' . $task->id, array('message' => 'Task added to database!'));
-			} else {
+			// Redirect::to('/task/' . $task->id, array('message' => 'Task added to database!'));
+			//} else {
 				//Kint::dump($errors);
-				View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes));
-			}
+				$projects = Project::all();
+				Kint::dump($attributes);
+				Kint::dump($projects);
+				View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'projects' => $projects));
+			//}
 
 		}
 
@@ -48,6 +59,7 @@
 		public static function edit($id) {
 			self::check_logged_in();
 			$task = Task::find($id);
+			$task->projectids = explode(",", $task->projectids);
 			$projects = Project::all();
 			View::make('task/edit.html', array('attributes' => $task, 'projects' => $projects));
 		} 
@@ -55,11 +67,13 @@
 		public static function update($id) { // push edits to DB
 			self::check_logged_in();
 			$params = $_POST;
+			$projects = $_POST['projects'];
 			$attributes = array(
 				'id' => $id,
 				'description' => $params['description'],
 				'priority' => $params['priority'],
-				'status' => $params['status']
+				'status' => $params['status'],
+				'projectids' => $projects
 			);
 
 			$task = new Task($attributes);
@@ -68,6 +82,7 @@
 			if (count($errors) > 0) {
 				View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes));
 			} else {
+				self::updateProjectMembership($id, $projects);
 				$task->update();
 				Redirect::to('/task/' . $task->id, array('message' => 'Task edited successfully'));
 			}
@@ -77,6 +92,10 @@
 			self::check_logged_in();
 			$task = new Task(array('id' => $id));
 			$task->destroy();
+			$projects = Task::getMemberOfProjects($id);
+				foreach ($projects as $project) {
+					Project::updateCount($project); 					
+				}
 			Redirect::to('/task', array('message' => 'Task removed successfully'));
 		}
 
@@ -89,6 +108,25 @@
 			$task->done();
 			Redirect::to('/task', array('message' => 'Task done'));
 		}
+
+		private static function updateProjectMembership($taskid, $projects) { // projects: task should belong to these
+			$memberOf = Task::getMemberOfProjects($taskid); // a member of before we update
+			
+			foreach ($projects as $project) {
+				if (!in_array($project, $memberOf)) { // not a member yet
+					Project::addTask($taskid, $project);
+					Project::updateCount($project);
+				}
+			}
+
+			foreach ($memberOf as $memberProj) {
+				if (!in_array($memberProj, $projects)) { // a member, but should not be anymore
+					Project::removeTask($taskid, $memberProj);
+					Project::updateCount($memberProj);
+				}
+			}
+		}
+
 	}
 
 ?>

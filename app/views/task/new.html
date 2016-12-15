@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h3>Add a new task</h3>
-
+<div class="alert alert-info">A task has to belong to at least one project! Ctrl-click to select many.</div>
 {% if errors %}
 <div class="alert alert-danger">
 	<ul>
@@ -26,17 +26,17 @@
 	<div class="form-group">
 		<label>Priority</label>
 		<select name="priority" class="form-control">
-			<option value="1" selected>Default</option>
-			<option value="2">Important</option>
-			<option value="3">DO IT NAO!</option>
+			<option value="1" {% if attributes.priority == "1" %} selected {% endif %}>Default</option>
+			<option value="2" {% if attributes.priority == "2" %} selected {% endif %}>Important</option>
+			<option value="3" {% if attributes.priority == "3" %} selected {% endif %}>DO IT NAO!</option>
 		</select>
 	</div>
 
 	<div class="form-group">
 		<label name="projects">Projects</label>
-		<select name="projects" multiple class="form-control">
+		<select name="projects[]" multiple class="form-control">
 			{% for project in projects %}
-				<option value="{{project.id}}">{{project.name}}</option>
+				<option value="{{project.id}}" {% for projectid in attributes.projectids %} {% if projectid == project.id %} selected {% endif %} {% endfor %}>{{project.name}}</option>
 			{% endfor %}
 		</select>
 	</div>

@@ -19,11 +19,14 @@
       // Kint debugger
       //Kint::dump($beer);
       //Kint::dump($tasks);
-      $jaffa = new Task(array(
-        'description' => '',
-        'priority' => '0'));
-      $errors = $jaffa->errors();
-      Kint::dump($errors);
+      // $jaffa = new Task(array(
+      //   'description' => '',
+      //   'priority' => '0'));
+      // $errors = $jaffa->errors();
+      // Kint::dump($errors);
+      $member = Task::getMemberOfProjects(1);
+      Kint::dump($member);
+      Kint::dump(TaskController::projects2string($member));
     }
 
     public static function login(){

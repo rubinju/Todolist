@@ -18,7 +18,8 @@
 					$projects[] = new Project(array(
 						'id' => $row['id'],
 						'name' => $row['name'],
-						'taskcount' => self::taskcount($row['id']) //, cant be done here, we're
+						'taskcount' => $row['taskcount']
+						//'taskcount' => self::taskcount($row['id']) //, cant be done here, we're
 					));
 				}
 				return $projects;
@@ -35,7 +36,8 @@
 				$project = new Project(array(
 				'id' => $row['id'],
 				'name' => $row['name'],
-				'person' => $row['person']
+				'person' => $row['person'],
+				'taskcount' => $row['taskcount']
 				));
 				return $project;
 			}
@@ -43,7 +45,7 @@
 		}
 
 		public function save() {
-			$query = DB::connection()->prepare('INSERT INTO Project (name, person) VALUES (:name, :person) RETURNING id');
+			$query = DB::connection()->prepare('INSERT INTO Project (name, person, taskcount) VALUES (:name, :person, 0) RETURNING id');
 			$query->execute(array('name' => $this->name, 'person' => $_SESSION['user']));
 			$row = $query->fetch();
 			$this->id = $row['id'];
@@ -76,6 +78,25 @@
 			$row = $query->fetch();
 			$project_name = $row['name'];
 			return $project_name;
+		}
+
+		public static function updateCount($id) {
+			$count = self::taskcount($id);
+			$query = DB::connection()->prepare('UPDATE Project SET taskcount = :taskcount WHERE id = :id');
+			$query->execute(array('id' => $id, 'taskcount' => $count));
+			$row = $query->fetch();
+		}
+
+		public static function addTask($taskid, $projectid) {
+			$query = DB::connection()->prepare('INSERT INTO Projects (task, project) VALUES (:task, :project)');
+			$query->execute(array('task' => $taskid, 'project' => $projectid));
+			$row = $query->fetch();
+		}
+
+		public static function removeTask($taskid, $projectid) {
+			$query = DB::connection()->prepare('DELETE FROM Projects WHERE task = :task AND project = :project');
+			$query->execute(array('task' => $taskid, 'project' => $projectid));
+			$row = $query->fetch();
 		}
 	}
 ?>

@@ -18,8 +18,10 @@
 * [Projektien listaus](http://rgylling.users.cs.helsinki.fi/tsoha/project)
 
 ### Todo:
-* Projektien liittäiminen tehtäviin ei toimi vielä
-* Tehtävien määrä projektinäkymässä on liian kanta-intensiivinen, toteutetaan toisella tavalla
+* ~~Projektien liittäminen tehtäviin ei toimi vielä~~
+* ~~Tehtävien määrä projektinäkymässä on liian kanta-intensiivinen, toteutetaan toisella tavalla~~
+* Lisää validointeja, vaihto kirjastoon
+* DROP & CREATE taulut uudestaan, tai ALTER, jotta muutokset voimaan
 
 ### Known bugs:
 * Käyttäjä voi muokata/poistaa toisen käyttäjän taskeja arvaamalla id:n
