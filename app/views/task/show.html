@@ -6,7 +6,8 @@
 <div class="alert alert-success">{{message}}</div>
 {% endif %}
 <div class="btn-group">
-  <input action="action" type="button" value="Back" class="btn btn-default" onclick="window.history.go(-1); return false;" />
+  <a class="btn btn-default" href="{{base_path}}/project" role="button">Projects</a>
+  <a class="btn btn-primary" href="{{base_path}}/task" role="button">Tasks</a>
 </div>
 <hr>
 
