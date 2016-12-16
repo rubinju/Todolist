@@ -27,18 +27,19 @@
 			$attributes = array('name' => $params['name']);
 
 			$project = new Project($attributes);
+			
 			//$errors = $project->errors(); // Calls all validators
+			$errors = $project->validateProject();
 
 			//Kint::dump($params); // Debug, comment out Redirect if used!
 
-			//if (count($errors) == 0) {
+			if (count($errors) == 0) {
 				$project->save();
-
-			Redirect::to('/project', array('message' => 'Project added to database!'));
-			// } else {
-			// 	//Kint::dump($errors);
-			// 	View::make('project/new.html', array('errors' => $errors, 'attributes' => $attributes));
-			// }
+				Redirect::to('/project', array('message' => 'Project added to database!'));
+			} else {
+			 	//Kint::dump($errors);
+			 	View::make('project/new.html', array('errors' => $errors, 'attributes' => $attributes));
+			}
 
 		}
 
@@ -57,8 +58,13 @@
 			);
 
 			$project = new Project($attributes);
-			$project->update();
-			Redirect::to('/project', array('message' => 'Project edited successfully'));
+			$errors = $project->validateProject();
+			if (count($errors) == 0) {
+				$project->update();
+				Redirect::to('/project', array('message' => 'Project edited successfully'));
+			} else {
+			 	View::make('project/edit.html', array('errors' => $errors, 'attributes' => $attributes));
+			}
 		}
 
 		public static function destroy($id) {

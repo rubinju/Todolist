@@ -8,11 +8,15 @@
 			View::make('task/index.html', array('tasks' => $tasks));
 		}
 
-		public static function store() { // What do we do about parms that need to be put in a different db-table?
+		public static function store() {
 			self::check_logged_in();
 			$params = $_POST;
-			$projects = $_POST['projects'];
-
+			if (empty($_POST['projects'])) {
+				$errors[] = 'Select at least one project!';
+				$projects = '';
+			} else {
+				$projects = $_POST['projects'];
+			}
 			$attributes = array(
 				'description' => $params['description'],
 				'priority' => $params['priority'],
@@ -21,26 +25,26 @@
 			);
 
 			$task = new Task($attributes);
-			$errors = $task->errors(); // Calls all validators
-
+			//$errors = $task->errors(); // Deprecated: Switched to valitron. Calls all validators
+			$errors = $task->validateTask(); // Valitron takes care of putting all errors in one array
 			//Kint::dump($params); // Debug, comment out Redirect if used!
 			//Kint::dump($task);
 
-			// if (count($errors) == 0) {
-			// 	$task->save(); // Tell task-model to save this object to DB
-			// 	foreach ($projects as $project) {
-			// 		Project::addTask($task->id, $project); // We don't know the id before it is saved!
-			// 		Project::updateCount($project);
-			// 	}
+			 if (count($errors) == 0) {
+				$task->save(); // Tell task-model to save this object to DB
+				foreach ($projects as $project) {
+					Project::addTask($task->id, $project); // We don't know the id before it is saved!
+					Project::updateCount($project);
+				}
 
-			// Redirect::to('/task/' . $task->id, array('message' => 'Task added to database!'));
-			//} else {
-				//Kint::dump($errors);
+				Redirect::to('/task/' . $task->id, array('message' => 'Task added to database!'));
+			} else {
+				Kint::dump($errors);
 				$projects = Project::all();
 				Kint::dump($attributes);
 				Kint::dump($projects);
 				View::make('task/new.html', array('errors' => $errors, 'attributes' => $attributes, 'projects' => $projects));
-			//}
+			}
 
 		}
 
@@ -67,7 +71,12 @@
 		public static function update($id) { // push edits to DB
 			self::check_logged_in();
 			$params = $_POST;
-			$projects = $_POST['projects'];
+			if (empty($_POST['projects'])) {
+				$errors[] = 'Select at least one project!';
+				$projects = '';
+			} else {
+				$projects = $_POST['projects'];
+			}
 			$attributes = array(
 				'id' => $id,
 				'description' => $params['description'],

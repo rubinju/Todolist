@@ -1,15 +1,15 @@
 <?php
 	class Task extends BaseModel{
-		public $id, $description, $status, $created, $person, $priority, $projectids;// $project_name;
+		public $id, $description, $status, $created, $person, $priority, $projectids;
 
 		public function __construct($attributes) {
 			parent::__construct($attributes);
-			$this->validators = array('validate_description', 'validate_priority'); // TODO: add other validators
+			$this->validators = array('validateTask');
 		}
 
 		public static function all(){ 
 			$query = DB::connection()->prepare('SELECT * FROM Task WHERE person = :person ORDER BY status, priority DESC, created DESC');
-			$query->execute(array('person' => $_SESSION['user'])); // does not work with booleans! check out bindValue
+			$query->execute(array('person' => $_SESSION['user']));
 			$rows = $query->fetchAll();
 			$tasks = array();
 
@@ -55,9 +55,6 @@
 			Kint::dump($row); // row is false if nothing comes back from db, perhaps from wrong input type
 
 			$this->id = $row['id']; // commented out for debugging
-
-			// ToBeDone...
-			// what else are we modifying&saving here
 		}
 
 		public function update() {
@@ -79,21 +76,22 @@
 			$row = $query->fetch();
 		}
 
-		public function validate_description() { // All other fields are pre-filled in add new task, at least for now. 
-			$val_error = array();
-			// YO DAWG I PUT AN ARRAY IN YOUR ARRAY, plz merge!
-			$val_error = array_merge($val_error, $this->validate_string_length($this->description, 'description', 3, 60));
+		// Deprecated, switched to valitron
+		// public function validate_description() { // All other fields are pre-filled in add new task, at least for now. 
+		// 	$val_error = array();
+		// 	// YO DAWG I PUT AN ARRAY IN YOUR ARRAY, plz merge!
+		// 	$val_error = array_merge($val_error, $this->validate_string_length($this->description, 'description', 3, 60));
 
-			//Kint::dump($val_error); // DEBUG
-			return $val_error;
-		}
+		// 	//Kint::dump($val_error); // DEBUG
+		// 	return $val_error;
+		// }
 
-		public function validate_priority() {
-			// Added to test errors() array merge
-			$val_error = array();
-			$val_error = array_merge($val_error, $this->validate_numeric($this->priority, 'priority'));
-			return $val_error;
-		}
+		// public function validate_priority() {
+		// 	// Added to test errors() array merge
+		// 	$val_error = array();
+		// 	$val_error = array_merge($val_error, $this->validate_numeric($this->priority, 'priority'));
+		// 	return $val_error;
+		// }
 
 		public static function listProject($projectId){ // Lists tasks included in project id
 			$query = DB::connection()->prepare('
@@ -111,7 +109,6 @@
 					'created' => $row['created'],
 					'priority' => $row['priority'],
 					'projectids' => $row['projectids']
-					// 'project_name' => $row['project_name']
 				));
 			}
 			return $tasks;
@@ -129,6 +126,30 @@
 			//Kint::dump($rows);
 			//Kint::dump($projects);
 			return $projects;
+		}
+
+		public function validateTask() {
+			$errors = array();
+
+			$v1 = new Valitron\Validator(array('description' => $this->description));
+			$v1->rule('lengthBetween', 'description', 3, 255);
+			if (!$v1->validate()) {
+				$errors[] = 'Description has to be between 3 and 255 chars.';
+			}
+
+			$v2 = new Valitron\Validator(array('projectids' => $this->projectids));
+			$v2->rule('required', 'projectids');
+			if (!$v2->validate()) {
+				$errors[] = 'Choose at least one project';
+			}
+
+			$v3 = new Valitron\Validator(array('priority' => $this->priority));
+			$v3->rule('min', 'priority', 1);
+			if (!$v3->validate()) {
+				$errors[] = 'Priority has to be >= 1';
+			}
+
+			return $errors;
 		}
 	} 
 ?>

@@ -98,5 +98,17 @@
 			$query->execute(array('task' => $taskid, 'project' => $projectid));
 			$row = $query->fetch();
 		}
+
+		public function validateProject() {
+			$errors = array();
+
+			$v1 = new Valitron\Validator(array('name' => $this->name));
+			$v1->rule('lengthBetween', 'name', 3, 255);
+			if (!$v1->validate()) {
+				$errors[] = 'Name has to be between 3 and 255 chars.';
+			}
+
+			return $errors;
+		}
 	}
 ?>
