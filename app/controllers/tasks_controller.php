@@ -86,7 +86,8 @@
 			);
 
 			$task = new Task($attributes);
-			$errors = $task->errors();
+			//$errors = $task->errors();
+			$errors = $task->validateTask();
 
 			if (count($errors) > 0) {
 				View::make('task/edit.html', array('errors' => $errors, 'attributes' => $attributes));
@@ -100,8 +101,8 @@
 		public static function destroy($id) {
 			self::check_logged_in();
 			$task = new Task(array('id' => $id));
-			$task->destroy();
 			$projects = Task::getMemberOfProjects($id);
+			$task->destroy();
 				foreach ($projects as $project) {
 					Project::updateCount($project); 					
 				}

@@ -14,7 +14,7 @@ class UserController extends BaseController {
 			$_SESSION['user'] = $user->id;
 
 			//Kint::dump($user);
-			Redirect::to('/', array('message' => 'Welcome back ' . $user->username));
+			Redirect::to('/', array('message' => 'Welcome back ' . $user->username . '. Start by creating a project if you dont have any yet, add tasks after that! The delete task-button is only visible if you click on the task'));
 		}
 	}
 

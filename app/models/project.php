@@ -8,7 +8,7 @@
 		}
 
 		public static function all(){ 
-			$query = DB::connection()->prepare('SELECT * FROM Project WHERE person = :person');
+			$query = DB::connection()->prepare('SELECT * FROM Project WHERE person = :person ORDER BY id');
 			$query->execute(array('person' => $_SESSION['user'])); // does not work with booleans! check out bindValue
 			$rows = $query->fetchAll();
 			$tasks = array();
@@ -82,6 +82,7 @@
 
 		public static function updateCount($id) {
 			$count = self::taskcount($id);
+			Kint::dump($count);
 			$query = DB::connection()->prepare('UPDATE Project SET taskcount = :taskcount WHERE id = :id');
 			$query->execute(array('id' => $id, 'taskcount' => $count));
 			$row = $query->fetch();

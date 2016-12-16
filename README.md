@@ -21,7 +21,7 @@
 * ~~Projektien liittäminen tehtäviin ei toimi vielä~~
 * ~~Tehtävien määrä projektinäkymässä on liian kanta-intensiivinen, toteutetaan toisella tavalla~~
 * ~~Lisää validointeja, vaihto valitroniin~~
-* DROP & CREATE taulut uudestaan, tai ALTER, jotta muutokset voimaan
+* ~~DROP & CREATE taulut uudestaan, tai ALTER, jotta muutokset voimaan~~
 
 ### Known bugs:
 * Käyttäjä voi muokata/poistaa toisen käyttäjän taskeja arvaamalla id:n
