@@ -1,5 +1,5 @@
 {% macro destroy_button(action, text) %}
-  <form method="post" action="{{action}}" style="display: inline-block;">
+  <form method="post" action="{{action}}" style="display: inline-block;" class="destroy-form" data-confirm="Are you sure you want to Delete this?">
     <button type="submit" class="btn-sm btn-danger">{{text|default('Delete')}}</button>
   </form>
 {% endmacro %}
